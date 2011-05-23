@@ -29,6 +29,8 @@ public class KinovlruParser {
 
 	private static final Logger log = 
 		Logger.getLogger("kino.parser." + KinovlruParser.class.getSimpleName());
+//	private static final Logger log2 = 
+//		Logger.getLogger("kino.parser.detail." + KinovlruParser.class.getSimpleName());
 
 	private DataService  	dataService;
 	private Document 		currentDocument = null;
@@ -85,7 +87,7 @@ public class KinovlruParser {
 			}
 		if ( halls.size() == 0 ) {
 			log.debug("adding default hall");
-			Hall hall = dataService.getHall(theater, null, null); 
+			Hall hall = dataService.getHall(theater, "", ""); 
 			log.debug("got hall from dataService: " + hall);
 			halls.add(hall);
 		}
@@ -226,7 +228,14 @@ public class KinovlruParser {
 		String[] strings = combinedString.split(splitString);
 		/* TODO: if page changes recheck this ! */
 		assert (strings.length == KinovlruParserConfig.getShowColCount()+1);
-		Movie movie = dataService.getMovie(strings[2], strings[1]);
+		String name = strings[2];
+		String url  = strings[1];
+		if (name == null && url != null) {
+			String tmp = name;
+			url = name;
+			name = tmp;
+		}
+		Movie movie = dataService.getMovie(name, url);
 		log.debug("EXIT [movie = " + movie + "]");
 		return movie;
 	}	
