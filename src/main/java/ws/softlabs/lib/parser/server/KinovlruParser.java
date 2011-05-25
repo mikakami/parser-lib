@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,6 +15,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.kino.dao.server.intf.DataService;
 import ws.softlabs.lib.kino.model.client.Hall;
@@ -30,9 +31,9 @@ import ws.softlabs.lib.util.client.StringUtils;
 public class KinovlruParser {
 
 	private static final Logger log = 
-		Logger.getLogger("kino.parser." + KinovlruParser.class.getSimpleName());
+		LoggerFactory.getLogger("kino.parser." + KinovlruParser.class.getSimpleName());
 //	private static final Logger log2 = 
-//		Logger.getLogger("kino.parser.detail." + KinovlruParser.class.getSimpleName());
+//		LoggerFactory.getLogger("kino.parser.detail." + KinovlruParser.class.getSimpleName());
 
 	private DataService  	dataService;
 	private Document 		currentDocument = null;
