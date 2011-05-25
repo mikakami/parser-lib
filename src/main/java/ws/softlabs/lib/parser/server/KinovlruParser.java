@@ -3,6 +3,7 @@ package ws.softlabs.lib.parser.server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -21,6 +22,7 @@ import ws.softlabs.lib.kino.model.client.Hall;
 import ws.softlabs.lib.kino.model.client.Movie;
 import ws.softlabs.lib.kino.model.client.Show;
 import ws.softlabs.lib.kino.model.client.Theater;
+import ws.softlabs.lib.util.client.Constants;
 import ws.softlabs.lib.util.client.DateUtils;
 import ws.softlabs.lib.util.client.DayComparator;
 import ws.softlabs.lib.util.client.StringUtils;
@@ -193,10 +195,10 @@ public class KinovlruParser {
 				 * HERE CREATE NEW SHOW (OR GET EXISTING) AND ADD IT TO RESULT SET
 				 */
 				Movie   movie = getMovieFromString(combinedString, KinovlruParserConfig.getSplitString());
-				DateTime date = getDateFromString(day, combinedString, KinovlruParserConfig.getSplitString());
+				Date date = getDateFromString(day, combinedString, KinovlruParserConfig.getSplitString());
 				List<Integer> price = getPriceFromString(combinedString, KinovlruParserConfig.getSplitString());
 				
-				Show show = dataService.getShow(hall, movie, date.toDate(), price); 
+				Show show = dataService.getShow(hall, movie, date, price); 
 				log.debug("adding Show: " + show);
 				shows.add(show);
 				combinedString = "";
@@ -260,16 +262,24 @@ public class KinovlruParser {
 		return price;
 	}	
 	/* get date-time from combined string and day string */
-	private DateTime getDateFromString( String day,
-										String combinedString,
-										String splitString ) {
+	@SuppressWarnings("deprecation")
+	private Date getDateFromString( String day,
+									String combinedString,
+									String splitString ) {
 		log.debug("ENTER (combinedString = " + combinedString +
   			              ", splitString = " + splitString + ")");
 		String[] strings = combinedString.split(splitString);
 		assert (strings.length == KinovlruParserConfig.getShowColCount()+1);
-		DateTime newDate = new DateTime(DateUtils.stringToDate(day, strings[0]));
-		log.debug("EXIT [result = " + newDate + "]");
-		return newDate;
+		Date showDate = DateUtils.stringToDate(day, strings[0]);
+		log.debug("GOT DATE: " + showDate);
+		/*  if showDate is after midnight but it's not morning yet
+		 *  we should still consider it as previous day */
+		if (showDate.getHours() <= Constants.dayOffset) {
+			showDate.setTime(showDate.getTime() + Constants.oneDay); // +1 day
+			log.debug("FIXED DATE: " + showDate);
+		}
+		log.debug("EXIT [result = " + showDate + "]");
+		return showDate;
 	}
 	/* gets a List of string (prices) from price string such as 123/321 */
 	private List<String> parsePriceString(String string) {
