@@ -232,6 +232,11 @@ public class KinovlruParser {
 		assert (strings.length == KinovlruParserConfig.getShowColCount()+1);
 		String name = strings[2];
 		String url  = strings[1];
+		/*
+		 *  if url is not null & name is null then this 
+		 *  is not <a href..> element and we should 
+		 *  treat url as name
+		 */
 		if (name == null && url != null) {
 			String tmp = name;
 			url = name;
@@ -273,7 +278,7 @@ public class KinovlruParser {
 		Date showDate = DateUtils.stringToDate(day, strings[0]);
 		log.debug("GOT DATE: " + showDate);
 		/*  if showDate is after midnight but it's not morning yet
-		 *  we should still consider it as previous day */
+		 *  we should add one day to date */
 		if (showDate.getHours() <= Constants.dayOffset) {
 			showDate.setTime(showDate.getTime() + Constants.oneDay); // +1 day
 			log.debug("FIXED DATE: " + showDate);

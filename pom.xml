@@ -9,7 +9,7 @@
 
 
   <name>parser-lib</name>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -33,12 +33,12 @@
     <dependency>
     	<groupId>ws.softlabs.lib</groupId>
     	<artifactId>util</artifactId>
-    	<version>0.0.3</version>
+    	<version>0.0.4</version>
     </dependency>
     <dependency>
     	<groupId>ws.softlabs.lib</groupId>
     	<artifactId>kino-dao</artifactId>
-    	<version>0.0.3</version>
+    	<version>0.0.4</version>
     </dependency>
     <dependency>
     	<groupId>joda-time</groupId>
@@ -48,7 +48,7 @@
     <dependency>
     	<groupId>ws.softlabs.lib</groupId>
     	<artifactId>kino-model</artifactId>
-    	<version>0.0.3</version>
+    	<version>0.0.4</version>
     </dependency>
     <dependency>
     	<groupId>log4j</groupId>
