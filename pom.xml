@@ -6,11 +6,15 @@
   <artifactId>parser-lib</artifactId>
   <packaging>jar</packaging>
 
-
-
   <name>parser-lib</name>
   <version>0.0.4</version>
   <url>http://maven.apache.org</url>
+
+  <parent>
+    <groupId>ws.softlabs.app</groupId>
+    <artifactId>kino-application</artifactId>
+    <version>0.0.5</version>
+  </parent>
 
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
